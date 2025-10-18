@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - The English Tree</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-gold: #d4af37;
+            --accent-green: #059669;
+            --light-bg: #f8fafc;
+            --dark-text: #1e293b;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light-bg);
+            margin: 0;
+            padding: 0;
+            padding-top: 120px;
+        }
+
+        /* Contact Info Bar */
+        .contact-bar {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            color: white;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+        }
+
+        .contact-bar a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .contact-bar a:hover {
+            opacity: 0.8;
+        }
+
+        .social-icons a {
+            color: white;
+            margin-left: 12px;
+            font-size: 1rem;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-2px);
+            color: var(--secondary-gold);
+        }
+
+        /* Main Navigation */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            padding: 15px 0;
+            top: 40px;
+        }
+
+        .navbar-custom.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 10px 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-link {
+            color: var(--dark-text) !important;
+            font-weight: 500;
+            margin: 0 8px;
+            padding: 8px 16px !important;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            padding: 10px;
+        }
+
+        .dropdown-item {
+            border-radius: 10px;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--secondary-gold), #b8860b);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .dark-mode-toggle {
+            background: var(--dark-text);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            background: var(--primary-blue);
+            transform: rotate(15deg);
+        }
+
+        /* Search Box */
+        .input-group {
+            border-radius: 25px;
+            overflow: hidden;
+        }
+
+        .input-group .form-control {
+            border-radius: 25px 0 0 25px;
+            border: 2px solid #e2e8f0;
+            padding: 10px 20px;
+        }
+
+        .input-group .btn {
+            border-radius: 0 25px 25px 0;
+            border: 2px solid #e2e8f0;
+            border-left: none;
+            background: white;
+            color: var(--primary-blue);
+        }
+
+        .input-group .btn:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        /* About Header */
+        .about-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            color: white;
+            padding: 140px 0 80px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .about-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="white" stop-opacity="0.1"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="10" r="10" fill="url(%23a)"/></svg>') repeat;
+            opacity: 0.1;
+        }
+
+        .about-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--secondary-gold), white);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* About Content */
+        .about-content {
+            padding: 80px 0;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--dark-text);
+            margin-bottom: 30px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-left: 4px solid var(--secondary-gold);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 40px 0;
+        }
+
+        .mission-section {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            color: white;
+            padding: 80px 0;
+            margin: 60px 0;
+        }
+
+        .mission-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--secondary-gold);
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .team-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            padding: 20px;
+            border: 3px solid var(--secondary-gold);
+            overflow: hidden;
+        }
+
+        .team-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .team-card:hover .team-icon i {
+            transform: scale(1.1);
+        }
+
+        .team-card h4 {
+            color: var(--primary-blue);
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .team-card p {
+            color: var(--dark-text);
+            line-height: 1.6;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            color: white;
+            padding: 60px 0;
+            margin: 60px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--secondary-gold);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 50px auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--secondary-gold);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            left: 55%;
+        }
+
+        .timeline-year {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            position: absolute;
+            top: 20px;
+            right: -70px;
+            z-index: 2;
+        }
+
+        .timeline-item:nth-child(even) .timeline-year {
+            left: -70px;
+            right: auto;
+        }
+
+        /* Footer Social Icons */
+        .footer-social-icon a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--secondary-gold);
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-social-icon a i {
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social-icon a:hover {
+            background: var(--secondary-gold);
+            transform: scale(1.1);
+            border-color: var(--secondary-gold);
+        }
+
+        .footer-social-icon a:hover i {
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 80px;
+            }
+
+            .contact-bar {
+                font-size: 0.75rem;
+            }
+
+            .navbar-custom {
+                top: 0;
+            }
+
+            .about-header {
+                padding: 100px 0 60px;
+            }
+
+            .about-title {
+                font-size: 2.5rem;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 80px);
+                left: 80px !important;
+            }
+
+            .timeline-year {
+                left: -70px !important;
+                right: auto !important;
+            }
+
+            .social-icons a {
+                margin-left: 8px;
+                font-size: 0.9rem;
+            }
+
+            .team-icon {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .team-icon i {
+                font-size: 2rem;
+            }
+            
+            .team-card h4 {
+                font-size: 1.1rem;
+            }
+            
+            .team-card p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        \/* Team Section */
+.team-section {
+    padding: 80px 0;
+    background: #f8fafc;
+}
+
+.team-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.team-icon {
+    width: 120px;
+    height: 120px;
+    background: white;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    padding: 20px;
+    border: 2px solid #e2e8f0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.team-card:hover .team-icon {
+    border-color: var(--secondary-gold);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+.certification-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.team-card:hover .certification-logo {
+    transform: scale(1.05);
+}
+
+.team-card h4 {
+    color: var(--primary-blue);
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.team-card p {
+    color: var(--dark-text);
+    line-height: 1.6;
+    margin: 0;
+    flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+    .team-icon {
+        width: 100px;
+        height: 100px;
+        padding: 15px;
+    }
+    
+    .team-card h4 {
+        font-size: 1.1rem;
+    }
+    
+    .team-card p {
+        font-size: 0.9rem;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Contact Info Bar -->
+    <div class="contact-bar d-none d-md-block">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <small>
+                        <i class="fas fa-phone me-2"></i>+91-9705454000
+                        <i class="fas fa-envelope ms-4 me-2"></i>info@theenglishtree.com
+                        <i class="fas fa-map-marker-alt ms-4 me-2"></i>Mehdipatnam, Hyderabad
+                    </small>
+                </div>
+                <div class="col-md-4 text-end social-icons">
+                    <a href="https://www.facebook.com/theenglishtree" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/theenglishtree" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com/theenglishtree" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/theenglishtree" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <div class="me-2 p-2 rounded" style="background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));">
+                    <i class="fas fa-tree text-white"></i>
+                </div>
+                <span class="fw-bold">The English Tree</span>
+            </a>
+            
+            <!-- Search Box -->
+            <div class="d-none d-lg-flex mx-auto">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search courses, tips..." id="searchInput">
+                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="index.html#courses" data-bs-toggle="dropdown">Courses</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="ielts.html"><i class="fas fa-graduation-cap me-2"></i>IELTS Training</a></li>
+                            <li><a class="dropdown-item" href="pte.html"><i class="fas fa-laptop me-2"></i>PTE Coaching</a></li>
+                            <li><a class="dropdown-item" href="gre.html"><i class="fas fa-calculator me-2"></i>GRE Preparation</a></li>
+                            <li><a class="dropdown-item" href="duolingo.html"><i class="fas fa-globe me-2"></i>Duolingo Test</a></li>
+                            <li><a class="dropdown-item" href="spoken-english.html"><i class="fas fa-comments me-2"></i>Spoken English</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="testimonials.html">Reviews</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    <li class="nav-item ms-2">
+                        <a href="tel:+919705454000" class="btn btn-primary-custom">Call Now</a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <button class="btn dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Header -->
+    <section class="about-header">
+        <div class="container">
+            <h1 class="about-title">About The English Tree</h1>
+            <p class="lead">Two decades of excellence in English language training</p>
+        </div>
+    </section>
+
+    <!-- About Content -->
+    <section class="about-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="about-text">
+                        <p>Established in 2003, The English Tree Training Institute has evolved into a renowned and professional brand, delivering unparalleled corporate training services to clients both locally and nationally. As a 100% service-oriented institute, we are driven by our team's genuine passion for training and development programs.</p>
+                        
+                        <div class="highlight-box">
+                            <p>At The English Tree, we are committed to providing exceptional training excellence to our clients. Our core team consists of highly talented corporate trainers who are proficient in meeting the high expectations of our clients.</p>
+                        </div>
+                        
+                        <p>All trainers at our centre are highly qualified and certified by the British Council, including a PhD scholar in English Language Education and a Celta-certified trainer from Cambridge. Each team member possesses long-term teaching experience and demonstrates a deep commitment and passion for teaching.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="mission-title">Our Mission</h2>
+                    <p class="lead">To empower individuals and organizations with exceptional English language skills through innovative teaching methodologies, personalized attention, and a commitment to excellence that transforms lives and careers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <!-- Team Section with Logo Images -->
+<section class="team-section">
+    <div class="container">
+        <h2 class="text-center mb-5" style="color: var(--primary-blue);">Our Trainers are Certified with</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="team-card">
+                    <div class="team-icon">
+                        <img src="images/british-council.svg" alt="British Council" class="certification-logo">
+                    </div>
+                    <h4>British Council Certified</h4>
+                    <p>All our trainers are certified by the British Council, ensuring international standards of English language teaching and IELTS training excellence.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="team-card">
+                    <div class="team-icon">
+                        <img src="./images/idp1.png" alt="IDP Education" class="certification-logo">
+                    </div>
+                    <h4>IDP Certified</h4>
+                    <p>Official IDP certification ensures our trainers meet the highest standards in IELTS training and student assessment methodologies.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="team-card">
+                    <div class="team-icon">
+                        <img src="images/celta.png" alt="Cambridge University" class="certification-logo">
+                    </div>
+                    <h4>Cambridge CELTA</h4>
+                    <p>Our CELTA-certified trainers from Cambridge University provide world-class English language instruction and methodology.</p>
+                </div>
+            </div>
+           
+
+            <div class="col-md-4">
+                <div class="team-card">
+                    <div class="team-icon">
+                        <img src="images/pte.png" alt="Pearson" class="certification-logo">
+                    </div>
+                    <h4>Pearson PTE Certified</h4>
+                    <p>Official Pearson certification for PTE Academic test preparation with proven success strategies and techniques.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="team-card">
+                    <div class="team-icon">
+                        <img src="images/d" alt="Duolingo" class="certification-logo">
+                    </div>
+                    <h4>Duolingo Certified</h4>
+                    <p>Certified Duolingo English Test preparation with comprehensive training for all test sections and question types.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Timeline Section -->
+    <section class="about-content">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: var(--primary-blue);">Our Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Foundation</h4>
+                        <p>The English Tree was established with a vision to provide quality English language education to students and professionals in Hyderabad.</p>
+                    </div>
+                    <div class="timeline-year">2003</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Expansion</h4>
+                        <p>Expanded our services to include corporate training and established partnerships with major IT companies and educational institutions.</p>
+                    </div>
+                    <div class="timeline-year">2008</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Certification</h4>
+                        <p>Became a certified training center with British Council, IDP, and Cambridge certifications for our trainers and curriculum.</p>
+                    </div>
+                    <div class="timeline-year">2012</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Digital Transformation</h4>
+                        <p>Launched online training programs and digital learning platforms to reach students across India and abroad.</p>
+                    </div>
+                    <div class="timeline-year">2018</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Excellence</h4>
+                        <p>Recognized as one of Hyderabad's leading English training institutes with over 10,000 students trained successfully.</p>
+                    </div>
+                    <div class="timeline-year">2023</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-item">
+                        <div class="stat-number">20+</div>
+                        <div class="stat-label">Years of Excellence</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Students Trained</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-item">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Corporate Clients</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #1e293b 100%); color: white;">
+        <div class="container">
+            <div class="row g-5">
+                <!-- Brand Section -->
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3 p-2 rounded" style="background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));">
+                            <i class="fas fa-tree text-white fs-4"></i>
+                        </div>
+                        <h5 class="fw-bold mb-0" style="font-family: 'Poppins', sans-serif;">The English Tree</h5>
+                    </div>
+                    <p class="mb-4 opacity-75">
+                        Your trusted partner for English proficiency training in Hyderabad. Helping students achieve their international education and career dreams since 2003.
+                    </p>
+                    
+                    <!-- Newsletter Signup -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">Stay Updated</h6>
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your email address">
+                            <button class="btn" style="background: var(--secondary-gold); color: white;">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Social Media -->
+                    <div>
+                        <h6 class="fw-bold mb-3">Follow Us</h6>
+                        <div class="footer-social-icon">
+                            <a href="https://www.facebook.com/theenglishtree" target="_blank" aria-label="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.instagram.com/theenglishtree" target="_blank" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://twitter.com/theenglishtree" target="_blank" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://www.youtube.com/theenglishtree" target="_blank" aria-label="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/company/theenglishtree" target="_blank" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold mb-4">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">Home</a></li>
+                        <li class="mb-2"><a href="about.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">About Us</a></li>
+                        <li class="mb-2"><a href="courses.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">Courses</a></li>
+                        <li class="mb-2"><a href="gallery.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">Gallery</a></li>
+                        <li class="mb-2"><a href="testimonials.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">Reviews</a></li>
+                        <li class="mb-2"><a href="contact.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Our Courses -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4">Our Courses</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="ielts.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">
+                                <i class="fas fa-graduation-cap me-2"></i>IELTS Training
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="pte.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">
+                                <i class="fas fa-laptop me-2"></i>PTE Coaching
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="gre.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">
+                                <i class="fas fa-calculator me-2"></i>GRE Preparation
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="duolingo.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">
+                                <i class="fas fa-globe me-2"></i>Duolingo Test
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="spoken-english.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">
+                                <i class="fas fa-comments me-2"></i>Spoken English
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="corporate-training.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">
+                                <i class="fas fa-briefcase me-2"></i>Corporate Training
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-lg-3">
+                    <h6 class="fw-bold mb-4">Contact Info</h6>
+                    <div class="mb-3">
+                        <div class="d-flex align-items-start mb-2">
+                            <i class="fas fa-map-marker-alt me-3 mt-1" style="color: var(--secondary-gold);"></i>
+                            <div>
+                                <strong>Address:</strong><br>
+                                <span class="opacity-75">2nd Floor, Above HDFC Bank<br>Mehdipatnam Main Road<br>Hyderabad - 500028</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-phone me-3" style="color: var(--secondary-gold);"></i>
+                            <div>
+                                <strong>Phone:</strong><br>
+                                <a href="tel:+919705454000" class="text-decoration-none opacity-75" style="color: white;">+91-9705454000</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-envelope me-3" style="color: var(--secondary-gold);"></i>
+                            <div>
+                                <strong>Email:</strong><br>
+                                <a href="mailto:info@theenglishtree.com" class="text-decoration-none opacity-75" style="color: white;">info@theenglishtree.com</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-clock me-3 mt-1" style="color: var(--secondary-gold);"></i>
+                            <div>
+                                <strong>Hours:</strong><br>
+                                <span class="opacity-75">Mon-Sat: 9 AM - 7 PM<br>Sunday: 10 AM - 5 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Footer -->
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <p class="mb-0 opacity-75">
+                        &copy; 2025 The English Tree. All rights reserved. Designed with <i class="fas fa-heart" style="color: var(--secondary-gold);"></i> for student success.
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <a href="privacy.html" class="text-decoration-none opacity-75 me-3" style="color: white;">Privacy Policy</a>
+                    <a href="terms.html" class="text-decoration-none opacity-75 me-3" style="color: white;">Terms</a>
+                    <a href="sitemap.html" class="text-decoration-none opacity-75" style="color: white;">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('mainNavbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Dark Mode Toggle
+        document.getElementById('darkModeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.team-card, .timeline-content, .highlight-box');
+            animateElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

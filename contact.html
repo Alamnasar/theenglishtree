@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Free Demo - The English Tree</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-gold: #d4af37;
+            --accent-green: #059669;
+            --light-bg: #f8fafc;
+            --dark-text: #1e293b;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light-bg);
+        }
+
+        .demo-hero {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            color: white;
+            padding: 100px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="white" stop-opacity="0.1"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="10" r="10" fill="url(%23a)"/></svg>') repeat;
+            opacity: 0.1;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .form-control {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 0.2rem rgba(30, 58, 138, 0.25);
+        }
+
+        .form-select {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 0.2rem rgba(30, 58, 138, 0.25);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3);
+            color: white;
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--secondary-gold);
+        }
+
+        .info-card h5 {
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-card ul li {
+            padding: 8px 0;
+            color: var(--dark-text);
+        }
+
+        .info-card ul li i {
+            color: var(--secondary-gold);
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .contact-item i {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--secondary-gold);
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 24px;
+            box-shadow: 2px 2px 10px #999;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128c7e;
+            transform: scale(1.1);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 30px 20px;
+                margin-top: -30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="demo-hero">
+        <div class="container text-center position-relative">
+            <h1 class="display-4 fw-bold mb-4">Book Your Free Demo Class</h1>
+            <p class="lead">Experience our teaching methodology and see why students choose The English Tree</p>
+        </div>
+    </section>
+
+    <!-- Main Form Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Form Column -->
+                <div class="col-lg-8">
+                    <div class="form-container">
+                        <!-- Success Message -->
+                        <div id="successMessage" class="success-message">
+                            <i class="fas fa-check-circle fs-3 mb-3"></i>
+                            <h4>Demo Class Booked Successfully!</h4>
+                            <p class="mb-0">We'll contact you within 2 hours to confirm your demo class schedule. Check your email for confirmation details.</p>
+                        </div>
+
+                        <!-- Error Message -->
+                        <div id="errorMessage" class="error-message">
+                            <i class="fas fa-exclamation-triangle fs-3 mb-3"></i>
+                            <h4>Oops! Something went wrong</h4>
+                            <p class="mb-0">Please try again or contact us directly at +91-9705454000</p>
+                        </div>
+
+                        <!-- Form -->
+                        <form id="demoBookingForm">
+                            <div class="text-center mb-4">
+                                <h2 class="fw-bold" style="color: var(--primary-blue);">Free Demo Class Registration</h2>
+                                <p class="text-muted">Fill in your details to book a free demo class</p>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label fw-semibold">First Name <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="firstName" name="firstName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label fw-semibold">Last Name <span class="required">*</span></label>
+                                    <input type="text" class="form-control" id="lastName" name="lastName" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label fw-semibold">Email Address <span class="required">*</span></label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label fw-semibold">Phone Number <span class="required">*</span></label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="course" class="form-label fw-semibold">Course Interested In <span class="required">*</span></label>
+                                    <select class="form-select" id="course" name="course" required>
+                                        <option value="">Select a course</option>
+                                        <option value="IELTS">IELTS (Academic/General)</option>
+                                        <option value="PTE">PTE (Pearson Test of English)</option>
+                                        <option value="GRE">GRE (Graduate Record Examination)</option>
+                                        <option value="Duolingo">Duolingo English Test</option>
+                                        <option value="Spoken English">Spoken English</option>
+                                        <option value="Multiple Courses">Multiple Courses</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="preferredTime" class="form-label fw-semibold">Preferred Demo Time</label>
+                                    <select class="form-select" id="preferredTime" name="preferredTime">
+                                        <option value="">Select preferred time</option>
+                                        <option value="Morning (9 AM - 12 PM)">Morning (9 AM - 12 PM)</option>
+                                        <option value="Afternoon (12 PM - 4 PM)">Afternoon (12 PM - 4 PM)</option>
+                                        <option value="Evening (4 PM - 7 PM)">Evening (4 PM - 7 PM)</option>
+                                        <option value="Weekend">Weekend</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="experience" class="form-label fw-semibold">Previous English Test Experience</label>
+                                    <select class="form-select" id="experience" name="experience">
+                                        <option value="">Select your experience</option>
+                                        <option value="Beginner">Complete Beginner</option>
+                                        <option value="Some Knowledge">Some Basic Knowledge</option>
+                                        <option value="Previously Attempted">Previously Attempted Test</option>
+                                        <option value="Experienced">Experienced, Need Improvement</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="targetScore" class="form-label fw-semibold">Target Score (if known)</label>
+                                    <input type="text" class="form-control" id="targetScore" name="targetScore" placeholder="e.g., IELTS 7.0, PTE 65">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="message" class="form-label fw-semibold">Additional Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="4" placeholder="Tell us about your goals, timeline, or any specific questions..."></textarea>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                    <label class="form-check-label" for="agreeTerms">
+                                        I agree to receive communications from The English Tree and understand that my information will be used according to the <a href="#" style="color: var(--primary-blue);">Privacy Policy</a>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-submit" id="submitBtn">
+                                <div class="loading-spinner" id="loadingSpinner"></div>
+                                <span id="btnText">Book Free Demo Class</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Information Column -->
+                <div class="col-lg-4">
+                    <!-- Demo Class Info -->
+                    <div class="info-card">
+                        <h5><i class="fas fa-graduation-cap me-2"></i>What to Expect in Demo</h5>
+                        <ul>
+                            <li><i class="fas fa-check"></i>Assessment of your current level</li>
+                            <li><i class="fas fa-check"></i>Overview of course structure</li>
+                            <li><i class="fas fa-check"></i>Sample teaching methods</li>
+                            <li><i class="fas fa-check"></i>Q&A with expert trainer</li>
+                            <li><i class="fas fa-check"></i>Personalized study plan</li>
+                        </ul>
+                    </div>
+
+                    <!-- Why Choose Us -->
+                    <div class="info-card">
+                        <h5><i class="fas fa-star me-2"></i>Why Choose Us?</h5>
+                        <ul>
+                            <li><i class="fas fa-award"></i>15+ Years of Experience</li>
+                            <li><i class="fas fa-users"></i>10,000+ Students Trained</li>
+                            <li><i class="fas fa-trophy"></i>95% Success Rate</li>
+                            <li><i class="fas fa-clock"></i>Flexible Batch Timings</li>
+                            <li><i class="fas fa-certificate"></i>Certified Trainers</li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="contact-info">
+                        <h5 class="mb-4"><i class="fas fa-phone me-2"></i>Need Immediate Help?</h5>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <div>
+                                <strong>Call Us</strong><br>
+                                <a href="tel:+919705454000" class="text-white text-decoration-none">+91-9705454000</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <strong>Email Us</strong><br>
+                                <a href="mailto:info@theenglishtree.com" class="text-white text-decoration-none">info@theenglishtree.com</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>Visit Us</strong><br>
+                                <span>Mehdipatnam, Hyderabad</span>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <i class="fab fa-whatsapp"></i>
+                            <div>
+                                <strong>WhatsApp</strong><br>
+                                <a href="https://wa.me/919705454000" class="text-white text-decoration-none">Chat with us instantly</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/919705454000?text=Hi, I want to book a free demo class" target="_blank" class="whatsapp-float" title="WhatsApp Us">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Initialize EmailJS with your public key
+        emailjs.init("YOUR_PUBLIC_KEY_HERE"); // Replace with your actual public key
+
+        // Form submission handling
+        document.getElementById('demoBookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            loadingSpinner.style.display = 'inline-block';
+            btnText.textContent = 'Booking Demo...';
+            
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            // Get form data
+            const formData = new FormData(this);
+            const templateParams = {
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                course: formData.get('course'),
+                preferredTime: formData.get('preferredTime'),
+                experience: formData.get('experience'),
+                targetScore: formData.get('targetScore'),
+                message: formData.get('message'),
+                submissionTime: new Date().toLocaleString(),
+                to_email: 'info@theenglishtree.com' // Your email
+            };
+            
+            // Send email using EmailJS
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    
+                    // Show success message
+                    successMessage.style.display = 'block';
+                    
+                    // Reset form
+                    document.getElementById('demoBookingForm').reset();
+                    
+                    // Scroll to success message
+                    successMessage.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Optional: Send confirmation email to user
+                    sendConfirmationEmail(templateParams);
+                    
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    
+                    // Show error message
+                    errorMessage.style.display = 'block';
+                    errorMessage.scrollIntoView({ behavior: 'smooth' });
+                })
+                .finally(function() {
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    loadingSpinner.style.display = 'none';
+                    btnText.textContent = 'Book Free Demo Class';
+                });
+        });
+
+        // Send confirmation email to user
+        function sendConfirmationEmail(params) {
+            const confirmationParams = {
+                to_email: params.email,
+                student_name: params.firstName + ' ' + params.lastName,
+                course: params.course,
+                preferredTime: params.preferredTime,
+                phone: params.phone
+            };
+            
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_CONFIRMATION_TEMPLATE_ID', confirmationParams)
+                .then(function(response) {
+                    console.log('Confirmation email sent!', response.status);
+                }, function(error) {
+                    console.log('Confirmation email failed...', error);
+                });
+        }
+
+        // Form validation
+        document.querySelectorAll('input, select, textarea').forEach(function(element) {
+            element.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value) {
+                    this.style.borderColor = '#ef4444';
+                } else if (this.type === 'email' && this.value && !isValidEmail(this.value)) {
+                    this.style.borderColor = '#ef4444';
+                } else {
+                    this.style.borderColor = '#e2e8f0';
+                }
+            });
+        });
+
+        // Email validation
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Phone number formatting
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 10) {
+                value = value.slice(0, 10);
+            }
+            e.target.value = value;
+        });
+    </script>
+
+    <!-- EmailJS Setup Instructions -->
+    <script>
+        /*
+        EMAIL SETUP INSTRUCTIONS:
+        
+        1. Go to https://www.emailjs.com/
+        2. Create a free account
+        3. Add your email service (Gmail, Outlook, etc.)
+        4. Create email templates:
+           
+           ADMIN NOTIFICATION TEMPLATE:
+           Subject: New Demo Class Booking - {{firstName}} {{lastName}}
+           Content: 
+           New demo class booking received!
+           
+           Student Details:
+           Name: {{firstName}} {{lastName}}
+           Email: {{email}}
+           Phone: {{phone}}
+           Course: {{course}}
+           Preferred Time: {{preferredTime}}
+           Experience: {{experience}}
+           Target Score: {{targetScore}}
+           Message: {{message}}
+           
+           Submitted: {{submissionTime}}
+           
+           STUDENT CONFIRMATION TEMPLATE:
+           Subject: Demo Class Booking Confirmed - The English Tree
+           Content:
+           Dear {{student_name}},
+           
+           Thank you for booking a free demo class with The English Tree!
+           
+           Your Details:
+           Course: {{course}}
+           Preferred Time: {{preferredTime}}
+           Phone: {{phone}}
+           
+           We'll contact you within 2 hours to confirm the schedule.
+           
+           Best regards,
+           The English Tree Team
+        
+        5. Replace in code:
+           - YOUR_PUBLIC_KEY_HERE with your EmailJS public key
+           - YOUR_SERVICE_ID with your service ID
+           - YOUR_TEMPLATE_ID with your admin template ID
+           - YOUR_CONFIRMATION_TEMPLATE_ID with your confirmation template ID
+        */
+    </script>
+</body>
+</html>

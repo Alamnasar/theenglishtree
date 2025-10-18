@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery - The English Tree</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+   <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-gold: #d4af37;
+            --accent-green: #059669;
+            --light-bg: #f8fafc;
+            --dark-text: #1e293b;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light-bg);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Gallery Header */
+        .gallery-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            color: white;
+            padding: 80px 0 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="white" stop-opacity="0.1"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="10" r="10" fill="url(%23a)"/></svg>') repeat;
+            opacity: 0.1;
+        }
+
+        .gallery-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--secondary-gold), white);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 40px 0;
+        }
+
+        /* Gallery Item */
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            background: white;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        /* Overlay */
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(30, 58, 138, 0.85), 
+                rgba(5, 150, 105, 0.85));
+            opacity: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .image-id {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .view-btn {
+            background: var(--secondary-gold);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .view-btn:hover {
+            background: #b8860b;
+            transform: scale(1.08);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Modal Styles */
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-body {
+            padding: 0;
+        }
+
+        .modal-img {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            color: white;
+            border: none;
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1);
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 50px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--light-bg);
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+            color: white;
+            padding: 60px 0;
+            margin: 60px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--secondary-gold);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .gallery-title {
+                font-size: 2.5rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px 0;
+            }
+            
+            .gallery-item img {
+                height: 220px;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    
+    <!-- Contact Info Bar -->
+    <div class="bg-dark text-white py-2 d-none d-md-block">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <small>
+                        <i class="fas fa-phone me-2"></i>+91-9705454000
+                        <i class="fas fa-envelope ms-4 me-2"></i>info@theenglishtree.com
+                        <i class="fas fa-map-marker-alt ms-4 me-2"></i>Mehdipatnam, Hyderabad
+                    </small>
+                </div>
+                <div class="col-md-4 text-end">
+                    <a href="https://www.facebook.com/theenglishtree" class="text-white me-2" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/theenglishtree" class="text-white me-2" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com/theenglishtree" class="text-white me-2" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.youtube.com/theenglishtree" class="text-white" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/index.html">
+                <div class="me-2 p-2 rounded" style="background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));">
+                    <i class="fas fa-tree text-white"></i>
+                </div>
+                <span class="fw-bold" style="font-family: 'Poppins', sans-serif; color: var(--primary-dark-blue);">The English Tree</span>
+            </a>
+            
+            <!-- Search Box -->
+            <div class="d-none d-lg-flex mx-auto">
+                <div class="input-group" style="width: 300px;">
+                    <input type="text" class="form-control" placeholder="Search courses, tips..." id="searchInput">
+                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="/index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/index.html">About</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#courses" data-bs-toggle="dropdown">Courses</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#ielts"><i class="fas fa-graduation-cap me-2"></i>IELTS Training</a></li>
+                            <li><a class="dropdown-item" href="#pte"><i class="fas fa-laptop me-2"></i>PTE Coaching</a></li>
+                            <li><a class="dropdown-item" href="#gre"><i class="fas fa-calculator me-2"></i>GRE Preparation</a></li>
+                            <li><a class="dropdown-item" href="#duolingo"><i class="fas fa-globe me-2"></i>Duolingo Test</a></li>
+                            <li><a class="dropdown-item" href="#spoken"><i class="fas fa-comments me-2"></i>Spoken English</a></li>
+                             <li><a class="dropdown-item" href="#Grammar"><i class="fas fa-comments me-2"></i>English Grammar</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+            
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item ms-2">
+                        <a href="tel:+919705454000" class="btn btn-primary-custom">Call Now</a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <button class="btn dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Gallery Header -->
+    <section class="gallery-header">
+        <div class="container text-center">
+            <h1 class="gallery-title">Photo Gallery</h1>
+            <p class="lead">Capturing moments at The English Tree</p>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="py-5">
+        <div class="container">
+            <div id="galleryGrid" class="gallery-grid">
+                <!-- Gallery items will be dynamically loaded here -->
+            </div>
+            
+            <!-- Loading Indicator -->
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading images...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-item">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Years of Excellence</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Students Trained</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-item">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-item">
+                        <div class="stat-number">1200+</div>
+                        <div class="stat-label">Google Reviews</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Image View -->
+    <div class="modal fade" id="imageModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">View Photo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImage" class="modal-img" src="" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <footer class="py-5" style="background: linear-gradient(135deg, var(--primary-dark-blue) 0%, rgba(31, 41, 55, 1) 100%); color: white;">
+        <div class="container">
+            <div class="row g-5">
+                <!-- Brand Section -->
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3 p-2 rounded" style="background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));">
+                            <i class="fas fa-tree text-white fs-4"></i>
+                        </div>
+                        <h5 class="fw-bold mb-0" style="font-family: 'Poppins', sans-serif;">The English Tree</h5>
+                    </div>
+                    <p class="mb-4 opacity-75">
+                        Your trusted partner for English proficiency training in Hyderabad. Helping students achieve their international education and career dreams since 2008.
+                    </p>
+                    
+                    <!-- Newsletter Signup -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">Stay Updated</h6>
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your email address">
+                            <button class="btn" style="background: var(--accent-gold); color: white;">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Social Media -->
+                    <div>
+    <h6 class="fw-bold mb-3">Follow Us</h6>
+    <div class="footer-social-icon">
+        <a href="https://www.facebook.com/theenglishtree" target="_blank" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://www.instagram.com/theenglishtree" target="_blank" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://twitter.com/theenglishtree" target="_blank" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://www.youtube.com/theenglishtree" target="_blank" aria-label="YouTube">
+            <i class="fab fa-youtube"></i>
+        </a>
+        <a href="https://www.linkedin.com/company/theenglishtree" target="_blank" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+    </div>
+</div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold mb-4">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#home" class="text-decoration-none opacity-75 hover-opacity-100">Home</a></li>
+                        <li class="mb-2"><a href="#about" class="text-decoration-none opacity-75 hover-opacity-100">About Us</a></li>
+                        <li class="mb-2"><a href="#courses" class="text-decoration-none opacity-75 hover-opacity-100">Courses</a></li>
+                        <li class="mb-2"><a href="#gallery" class="text-decoration-none opacity-75 hover-opacity-100">Gallery</a></li>
+                        <li class="mb-2"><a href="#testimonials" class="text-decoration-none opacity-75 hover-opacity-100">Reviews</a></li>
+                        <li class="mb-2"><a href="#contact" class="text-decoration-none opacity-75 hover-opacity-100">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Our Courses -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-4">Our Courses</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a href="#" class="text-decoration-none opacity-75 hover-opacity-100">
+                                <i class="fas fa-graduation-cap me-2"></i>IELTS Training
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-decoration-none opacity-75 hover-opacity-100">
+                                <i class="fas fa-laptop me-2"></i>PTE Coaching
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-decoration-none opacity-75 hover-opacity-100">
+                                <i class="fas fa-calculator me-2"></i>GRE Preparation
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-decoration-none opacity-75 hover-opacity-100">
+                                <i class="fas fa-globe me-2"></i>Duolingo Test
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-decoration-none opacity-75 hover-opacity-100">
+                                <i class="fas fa-comments me-2"></i>Spoken English
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="text-decoration-none opacity-75 hover-opacity-100">
+                                <i class="fas fa-gift me-2"></i>Combo Packages
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="col-lg-3">
+                    <h6 class="fw-bold mb-4">Contact Info</h6>
+                    <div class="mb-3">
+                        <div class="d-flex align-items-start mb-2">
+                            <i class="fas fa-map-marker-alt me-3 mt-1" style="color: var(--accent-gold);"></i>
+                            <div>
+                                <strong>Address:</strong><br>
+                                <span class="opacity-75">2nd Floor, Above HDFC Bank<br>Mehdipatnam Main Road<br>Hyderabad - 500028</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-phone me-3" style="color: var(--accent-gold);"></i>
+                            <div>
+                                <strong>Phone:</strong><br>
+                                <a href="tel:+919705454000" class="text-decoration-none opacity-75">+91-9705454000</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-envelope me-3" style="color: var(--accent-gold);"></i>
+                            <div>
+                                <strong>Email:</strong><br>
+                                <a href="mailto:info@theenglishtree.com" class="text-decoration-none opacity-75">info@theenglishtree.com</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-clock me-3 mt-1" style="color: var(--accent-gold);"></i>
+                            <div>
+                                <strong>Hours:</strong><br>
+                                <span class="opacity-75">Mon-Sat: 9 AM - 7 PM<br>Sunday: 10 AM - 5 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Footer -->
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <p class="mb-0 opacity-75">
+                        &copy; 2024 The English Tree. All rights reserved. Designed with <i class="fas fa-heart" style="color: var(--accent-gold);"></i> for student success.
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <a href="#" class="text-decoration-none opacity-75 me-3">Privacy Policy</a>
+                    <a href="#" class="text-decoration-none opacity-75 me-3">Terms</a>
+                    <a href="#" class="text-decoration-none opacity-75">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Gallery Images Array with all the provided URLs
+        const galleryImages = [
+            { id: 1, url: "https://lh3.googleusercontent.com/p/AF1QipMtO30XCqrIFfdeafoId0qgQdSRKEqfu34ZkBmU=s680-w680-h510-rw" },
+            { id: 2, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrlfTO2cM67bqeOf8H3-7fFUMLvLSM1mylXXodFyXEecqZx6iWcWo3fudzcMx5ArBqlwUUFxxXQiQEN3nb3PE6fZAKnTRhpKqbzrsz3rDAYSxwFlK5VowutMvr-Wa5Gu1U0Deui=s680-w680-h510-rw" },
+            { id: 3, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrsHtJ1B6IVypRsiHu76tpVDHKjca305BF0GTta_E482iYpIsTV4aDYBymYL-yySexiBZm4Fp-yI0g911nWiVZ8BlYzpsPXrJqqueqcUtm_UEjVw6BJuM5yAHr_CaRPM2dOWJA6=s680-w680-h510-rw" },
+            { id: 4, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4noxl9Ae-aEjB8v1OyE56KLunckNKl4NrGCzApBirnXjikEfDNbYgFXzMf7C2PRWIAt7XWxOX-cVzYAOH3EemHGHqbHrA-cWkvNWshW7K72yXt4FIRBfiYWPwnc40xJZgpUahQU=s680-w680-h510-rw" },
+            { id: 5, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrsnPy2OvYGP4_fwwxIKC-KIkJaucHdDiUhfEKVHFEe0qKXVCmRMWiaqxV8Aq9jE-KmR8DvmY5D_E70SmgzLjmh3uNy0GK2KHU_VHjISbjOyPRwP9OfDQnZz8xpm4ndy5m8i1hR3A=s680-w680-h510-rw" },
+            { id: 6, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npLiAZGwHg1-R1NDHCHQJ0bjkd0zkOwCW66qE6nwFF8pYztXvC9NQHzn4gig2fvkwdR0PVwbljyz4bx8O6R82KS7SElAYV4td4zqKCsgYTzx9mevuUqwQK6d7qEqZOcTKQqvD8D8g=s680-w680-h510-rw" },
+            { id: 7, url: "https://lh3.googleusercontent.com/p/AF1QipMONUHaiJtm0CObPwM5TotKtsXWQba2loI6YcmC=s680-w680-h510-rw" },
+            { id: 8, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npB3-_EFnvFUSRxeHpb2OdPxi9G-E6vmQ1KU2ioMk1SsQDIPrISPBG24dQH-zRS9cyt5YnfUVP1ABlX4KoXiBf_PU4s2H_PhLhRE6trjPP9O46bHLGQexlEJzD5NPD1b6qfRZA=s680-w680-h510-rw" },
+            { id: 9, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqA_-oY83sPP6Q8ZIoGm4OFBWSF2fW4Bl1WjLofRpF-H6vkhmtG_YaODpjATcv4kyHnc16w6d0nZO8x2xFIIeEdL-_dznb4RhkOn6sSOuEJYK2NsM-XOVrYahXkrsCygwYN4GIccw=s680-w680-h510-rw" },
+            { id: 10, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqMXZ_QveGqrwhjrD0k57Nq-YQH4sUU__NvZxqkSGY6qB5OLN7EgZ4tqfSfWYSkAClmdq4-w-k6zBbLrJrjOf70qMPxhFMuR1eT-qNGWKwTScPWYKXxs06hJvpvviQ8W1HOk2o=s680-w680-h510-rw" },
+            { id: 11, url: "https://lh3.googleusercontent.com/p/AF1QipMics27OBG8KuNtcmUWFItcEJIr2w75Fs12gDEM=s680-w680-h510-rw" },
+            { id: 12, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqZwUdLgsA2k2yjFECdfhO2ncR3qyPhUkjO_TVh2o1LOt3drIL6b291a-FDlFVEzdbVZw94UUpKY5yhlF_bfgMv0l9_ZujwPEob-Zb-F3FtRdapv9PP1XS1is5z-evtyFx_JVsq=s680-w680-h510-rw" },
+            { id: 13, url: "https://lh3.googleusercontent.com/p/AF1QipOmd_C4mInopQCWq7qmoYehFbTf-dJTrStkCfo2=s680-w680-h510-rw" },
+            { id: 14, url: "https://lh3.googleusercontent.com/p/AF1QipNgVCexnPhSDpXvPvPkzG8gl6rQ0iLomLT7ReX1=s680-w680-h510-rw" },
+            { id: 15, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4noaO3oAaxQcqHNc32ZIPJtIs-OSKnVb802NC99dKtV7C9jzqHOTGf87fs26KKg11PxV0IWn_wFWDtAgkHPLNOl6wdRT2KQybYq76c8haZloTnmK8XtYTHp4Arjka0vsMAh3Ve4=s680-w680-h510-rw" },
+            { id: 16, url: "https://lh3.googleusercontent.com/p/AF1QipNV0tycZJdRrKW9eTNc_bTMltZ3EaiMVQmEZog5=s680-w680-h510-rw" },
+            { id: 17, url: "https://lh3.googleusercontent.com/p/AF1QipPoOG7Tf_G0WCOesTi1pwg9Itoa9sgcNJFSguVd=s680-w680-h510-rw" },
+            { id: 18, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqPmIDBb3qw-wBGGsjcJFf5U49Ryj4GSxNI1Y1ypDD1gViY0Tqq-xIXCpaukwwlmIFew6BIu60MFD0qFIS_nekscb7P505wSnWKr7rbM8Yl9czbvCOQkKWIR6sz6nlJ93ZTujPd=s680-w680-h510-rw" },
+            { id: 19, url: "https://lh3.googleusercontent.com/p/AF1QipMoCF2GEVwjauFTGG1NyceMnmP5jU64JIBkLc6U=s680-w680-h510-rw" },
+            { id: 20, url: "https://lh3.googleusercontent.com/p/AF1QipMo3Lbacb_gLl-p6MPGoIrmKcY9T9Vr4W8DInEO=s680-w680-h510-rw" },
+            { id: 21, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqhyEXcE2jISGpe-YkI_3_K6rJCtI38sNmiRmn2mDVL0lv_ZBk9Lp4zSSMrTQ-GDuyb7x-FbCOG4PfRJL7yqk4M_cbBG45BzzZSbP00kJqqR3LjdOjKeJEf47CCH9zdvVYUYiZItaO4qW4=s680-w680-h510-rw" },
+            { id: 22, url: "https://lh3.googleusercontent.com/p/AF1QipPiIlxvdXJlRbWsIzGH-m8B6OFVt_YnMtyo0KuC=s680-w680-h510-rw" },
+            { id: 23, url: "https://lh3.googleusercontent.com/p/AF1QipOFCt_1L2-It8_AeD5rRP1egO4RfeOBea6wcjnf=s680-w680-h510-rw" },
+            { id: 24, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqo8FiAul0N-KKH3ivYKX_eXAqWDVgt45sL-ybx5bbYTEhatCFMzKj0h__P0YzXHQMSgDz6p1mvgSsK7VwbRgduS9IEMUVweTZXG6QufR8tsJmFozHKyCbAPyN4JZVZxlvBxCv8eFMtNqzb=s680-w680-h510-rw" },
+            { id: 25, url: "https://lh3.googleusercontent.com/p/AF1QipPdlos1xcsAT_3AkGcyEYucIFBWWcC96ovpvhA_=s680-w680-h510-rw" },
+            { id: 26, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqOMQUFG63hYBeBbFfz9bD1zidnHKe8ugKP436z7y_p4KUDaLeq9ozwP0D1DlkJCMN8I1g_T_5EDya2bBp9j7EiluuPl50Ht36A_WaqU0ETKMqDmbJ8zZQsSOaOCWw4rUf8ku875g=s680-w680-h510-rw" },
+            { id: 27, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqh1nchz5-bo60O2YWysghF75wladDpwyeY0xWq_4wojq_nHMHk3bV0icgobxUBTwtVHgPO5T79loKAAfzTXJwoLXQb-9souVNx7TQMNZ4c1ttcSm5mM7DOuwnGdhmgL2g7cqIn=s680-w680-h510-rw" },
+            { id: 28, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npsinFGIvhaIQO7bM5E-Pkh2Ai-85_dsTFIgLv4mdT7qdxRJYfuD6ADkyyIazIeAddVAYwEKJTAgA8QbwIiOz9JDODBuaFPakisRV7ztJkbc_Zbw09tqxLoNZsg_wX3clqTdQDb=s680-w680-h510-rw" },
+            { id: 29, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqK9zJgIAMrYQHTrz2gf30z356Spaj2FKVchfjtScSrHELrFBijsx2RedvVhB9GF46EBl6615LKcE84v1_Zr3R_cJNthNh4A9qF__aNBlflw7PJIwUMo1OEUritJC_HJOGpZSEHk2SMWjmN=s680-w680-h510-rw" },
+            { id: 30, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrB1-yGu4L20IK5qhjRQqkDp76zudLIPBNG_i3VwecdNmXos7O6QU6VcXBrRGseiFBggfcp1r3t3GhR2FTPLe0bz7v0qcQqJBC53IiiS7P-9R__9Ag1hGLq2xMu9iW7wmP2e8o=s680-w680-h510-rw" },
+            { id: 31, url: "https://lh3.googleusercontent.com/p/AF1QipP92PXRK8IFr_LxH-pzQitRNCe518jyqCqQ3D0p=s680-w680-h510-rw" },
+            { id: 32, url: "https://lh3.googleusercontent.com/p/AF1QipMdsZB06mXnINbHaQ28dV6Edeq7WA0m2CXbKRau=s680-w680-h510-rw" },
+            { id: 33, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqTlYxxgmFXXZXx1U7hUkb_DMaE1KWhQMrHfhRB-baEfbQg4T_-3oBvXDNv_sM_5M3Ob8qxxYzyOBpso5Jto3WLcAJyso4omBQ9bM0iz8MsoMeyutcxh-esr1oqQliEySD7oTR-Qsn6UyqI=s680-w680-h510-rw" },
+            { id: 34, url: "https://lh3.googleusercontent.com/p/AF1QipO5x8Qpvhr-tC0tBvyvSLp7E5wHF4VqmxLORA0b=s680-w680-h510-rw" },
+            { id: 35, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqzwHg7cxy9XBdp56-bfQyBv68xACrThY0I_qDG-nHL-GjVgYRJX_6O_ZIssS1xbjKrdaLCfcW2kYCrwb8jNLCp4nVBHKPXbpzGNPxXOIHSDUq3EI9ofQDmPKrzKPViodjOGsZJnlY3bwhC=s680-w680-h510-rw" },
+            { id: 36, url: "https://lh3.googleusercontent.com/p/AF1QipO-cODFSeOljub22nx12G7RerzCktTahC43zjOu=s680-w680-h510-rw" },
+            { id: 37, url: "https://lh3.googleusercontent.com/p/AF1QipNr3b-2DoeUcUgutesJsC57DCEXlb-NwCI3AtFl=s680-w680-h510-rw" },
+            { id: 38, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4noo5rNv8y_R-sBQcO7zNNXpux6Vj-Xzh4FVzrb0DrHPURG5mWC8h96z17pScLj3m8UwxxW95xqwbDIzOW9-0syw5CaZwT55j1VFI2gHsHa4RXC0XjVG9DOuTAS2dj1In8Od4D0kui2VeV8=s680-w680-h510-rw" },
+            { id: 39, url: "https://lh3.googleusercontent.com/p/AF1QipNzUXTvuu-B3SkK97Iv_PHOnIx904a1OMJ4JBpI=s680-w680-h510-rw" },
+            { id: 40, url: "https://lh3.googleusercontent.com/p/AF1QipP67eRRAKRHI0KiPsYIgTm3NFfI4UZ5GkBWsjgr=s680-w680-h510-rw" },
+            { id: 41, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npY-rROrNXkiIEZIZNoMoLaQFPvb9DWqoqkzijFSFksOT7E14ps9gCMeolQEjnbamsvMKTuXdCbwA6B3-AMkm4R10fLRyAwEsMnUKvN2ikQZHolfyCXpEHjFPAF48dLPt7LVfgj=s680-w680-h510-rw" },
+            { id: 42, url: "https://lh3.googleusercontent.com/p/AF1QipOAjXTAzQazEitAIfUifzBX4DpdaGi1yz1pEDXC=s680-w680-h510-rw" },
+            { id: 43, url: "https://lh3.googleusercontent.com/p/AF1QipO6EprRiGc1yHcx10t9EIVu8numMea0NBZdcCYc=s680-w680-h510-rw" },
+            { id: 44, url: "https://lh3.googleusercontent.com/p/AF1QipMYIJ4hyFfa_DuMw_SPRC4EyrkN-Qh8mGeDXSTa=s680-w680-h510-rw" },
+            { id: 45, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4no6aZfWnncSwPFBOlhPnkRLY7iciHrs-2J4xCIs_WWrnFhMxmw3dQzH_bvIDzajQby7ttH5TzVkC7fPvUrQS0_qdJYxnnys7xBNObNCXwzSMr8iLi1bYwvsqKKGJqG1KSU9xoCnnQ=s680-w680-h510-rw" },
+            { id: 46, url: "https://lh3.googleusercontent.com/p/AF1QipO9mSZjEuqUYvoQG3svFpIU3GrIchKoYPEFimyh=s680-w680-h510-rw" },
+            { id: 47, url: "https://lh3.googleusercontent.com/p/AF1QipNzOtcjKv4bEx9KKnvgWFYJKro-ICXyF1bg9D95=s680-w680-h510-rw" },
+            { id: 48, url: "https://lh3.googleusercontent.com/p/AF1QipP3RMzrRq24-aKppvSmQ3KibGAfjCCGNT2yP-so=s680-w680-h510-rw" },
+            { id: 49, url: "https://lh3.googleusercontent.com/p/AF1QipPF2Ism1bKzQMYNxb2TEYURsjgC2go5qvSOJnS1=s680-w680-h510-rw" },
+            { id: 50, url: "https://lh3.googleusercontent.com/p/AF1QipPdLYaRcGKes6KRCj6wMJgO6_hhWqgIWs-e0cCe=s680-w680-h510-rw" },
+            { id: 51, url: "https://lh3.googleusercontent.com/p/AF1QipPsNjRGuTFuJtrRVgUFqt9--8DSTW19ThjZTSxi=s680-w680-h510-rw" },
+            { id: 52, url: "https://lh3.googleusercontent.com/p/AF1QipO1iFitUqE9UOz_0-09TrBu9x74yvf6xJ6KM6_X=s680-w680-h510-rw" },
+            { id: 53, url: "https://lh3.googleusercontent.com/p/AF1QipOQZEU0fd-KFdPt5Hq2uJ6kP6ZP0lzQRgkEYLwA=s680-w680-h510-rw" },
+            { id: 54, url: "https://lh3.googleusercontent.com/p/AF1QipO_y4juPslOFqvElUlUqRnkuJy5AQ08wfSvfsL5=s680-w680-h510-rw" },
+            { id: 55, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npJuC6V-7VMVoSwqj73U277axfzPktmkFJ8VbJ4kT5ehyIoXadeIfVtEB3AmpSf-rXDUSJKdidoNmAT77uWY38KikZWillyZQSL54rMRssnlXDw_wJrofbmpKcnoNVpklDlyWi4Zq3qA39A=s680-w680-h510-rw" },
+            { id: 56, url: "https://lh3.googleusercontent.com/p/AF1QipN1yR6AGv-h0aSHT4xfs-CqVQHaMct0o0vZYNWW=s680-w680-h510-rw" },
+            { id: 57, url: "https://lh3.googleusercontent.com/p/AF1QipMmqGeeteZ1zJSMnl4xAYvcaDAvrKGFBEjV-mr8=s680-w680-h510-rw" },
+            { id: 58, url: "https://lh3.googleusercontent.com/p/AF1QipNmuZcHavNNTKahK9KVg3gIYDwVBurX2BuXodnw=s680-w680-h510-rw" },
+            { id: 59, url: "https://lh3.googleusercontent.com/p/AF1QipMZoVn0CDvmDHPX2thF6uKX6vBcG8lLzyZFci2W=s680-w680-h510-rw" },
+            { id: 60, url: "https://lh3.googleusercontent.com/p/AF1QipMpL7dWi-f9J88wgcykv3-snLf7rNSNMFkqzeFb=s680-w680-h510-rw" },
+            { id: 61, url: "https://lh3.googleusercontent.com/p/AF1QipPfnLn18hTAfYisviBVz2G9HYk6J9fTDLn-TA2T=s680-w680-h510-rw" },
+            { id: 62, url: "https://lh3.googleusercontent.com/p/AF1QipMTtUAIYnoZEy8vDjzxcXradsSgx9iQzECMVRds=s680-w680-h510-rw" },
+            { id: 63, url: "https://lh3.googleusercontent.com/p/AF1QipMtO30XCqrIFfdeafoId0qgQdSRKEqfu34ZkBmU=s680-w680-h510-rw" },
+            { id: 64, url: "https://lh3.googleusercontent.com/p/AF1QipNr3b-2DoeUcUgutesJsC57DCEXlb-NwCI3AtFl=w141-h235-n-k-no-nu" },
+            { id: 65, url: "https://lh3.googleusercontent.com/p/AF1QipO-cODFSeOljub22nx12G7RerzCktTahC43zjOu=s680-w680-h510-rw" },
+            { id: 66, url: "https://lh3.googleusercontent.com/p/AF1QipP67eRRAKRHI0KiPsYIgTm3NFfI4UZ5GkBWsjgr=s680-w680-h510-rw" },
+            { id: 67, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqcguolNAZ22LAW4Rel6Yq--Jx29C_9P-mYY2o-ta-LLdy6bxtkkPL01YbomZplLWWFd8mg2fP8-sTZm3kqBiQ0FcxEhtYLb3qeP7_YJQYXPmdCBl2H8-2kCH0b3W0P-rBnWTdx59lYP29M=s680-w680-h510-rw" },
+            { id: 68, url: "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npIXxyo4k-lTb6GH6LMMigo_c5No0fH-sK6KIXRfum0P_AdxviMQ_vlilwLiTxQP6Wqe5FOdATXnEn5TW4UXcMRXeyXd6eONJUXAtWuYd7wbeaS9tBBTN4ZXcyOw6sSiluZgV0=s680-w680-h510-rw" },
+            { id: 69, url: "https://lh3.googleusercontent.com/p/AF1QipOzyfu4sBlk4i8CIPvQI61EUL951tNQ7VWYxCPp=s680-w680-h510-rw" },
+            { id: 70, url: "https://lh3.googleusercontent.com/p/AF1QipNgFd5rnumJxS25wfcAVq7UA_DyfpPbgFH374JQ=s680-w680-h510-rw" },
+            { id: 71, url: "https://lh3.googleusercontent.com/p/AF1QipPAM-6Ewb2hI_Kru2Y3S-rHauPoapoHij6ZVMz0=s680-w680-h510-rw" }
+        ];
+
+        // Initialize Gallery
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGallery();
+        });
+
+        // Load Gallery Function
+        function loadGallery() {
+            const galleryGrid = document.getElementById('galleryGrid');
+            const loading = document.getElementById('loading');
+            
+            // Show loading
+            loading.style.display = 'block';
+            galleryGrid.innerHTML = '';
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                galleryImages.forEach((image, index) => {
+                    const galleryItem = createGalleryItem(image);
+                    galleryItem.style.animationDelay = `${index * 0.1}s`;
+                    galleryGrid.appendChild(galleryItem);
+                });
+                
+                loading.style.display = 'none';
+            }, 800);
+        }
+
+        // Create Gallery Item
+        function createGalleryItem(image) {
+            const item = document.createElement('div');
+            item.className = 'gallery-item fade-in';
+            
+            item.innerHTML = `
+                <img src="${image.url}" alt="Gallery image ${image.id}" loading="lazy">
+                <div class="gallery-overlay">
+                    <div class="image-id">ID: ${image.id}</div>
+                    <button class="btn view-btn" onclick="openImageModal('${image.url}', ${image.id})">
+                        <i class="fas fa-expand-alt me-2"></i>View Full
+                    </button>
+                </div>
+            `;
+            
+            return item;
+        }
+
+        // Open Image Modal
+        function openImageModal(imageUrl, imageId) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            modalImage.src = imageUrl;
+            modalTitle.textContent = `Image ID: ${imageId}`;
+            
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+        }
+
+        // Add new images function (for future use)
+        function addNewImages(newImages) {
+            // Add new images to the array
+            galleryImages.push(...newImages);
+            
+            // Refresh gallery
+            loadGallery();
+        }
+    </script>
+
+        <script src="main.js"></script>
+
+</body>
+</html>
