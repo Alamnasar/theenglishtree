@@ -24,6 +24,8 @@
     text-decoration: none;
 }
 
+
+
 .brand-text {
     display: flex;
     flex-direction: column;
@@ -61,36 +63,106 @@
         margin-right: 0.5rem !important;
     }
 }
+        
+        .social-icons a {
+            color: white;
+            margin-left: 12px;
+            font-size: 1rem;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-2px);
+            color: var(--secondary-gold);
+        }
+
+      
+      
+
+        /* Footer Social Icons */
+        .footer-social-icon a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--secondary-gold);
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-social-icon a i {
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social-icon a:hover {
+            background: var(--secondary-gold);
+            transform: scale(1.1);
+            border-color: var(--secondary-gold);
+        }
+
+        .footer-social-icon a:hover i {
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 80px;
+            }
+
+          
+
+         
+
+            .social-icons a {
+                margin-left: 8px;
+                font-size: 0.9rem;
+            }
+
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+
+
+
+
+
+
+
+
 
     </style>
 </head>
 <body>
-    <!-- Contact Info Bar -->
-    <div class="bg-dark text-white py-2 d-none d-md-block">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <small>
-                        <i class="fas fa-phone me-2"></i>+91-9705454000
-                        <i class="fas fa-envelope ms-4 me-2"></i>info@theenglishtree.com
-                        <i class="fas fa-map-marker-alt ms-4 me-2"></i>Mehdipatnam, Hyderabad
-                    </small>
-                </div>
-                <div class="col-md-4 text-end">
-                    <a href="https://www.facebook.com/theenglishtree" class="text-white me-2" target="_blank"><i class="fab fa-facebook"></i></a>
-                    <a href="https://www.instagram.com/theenglishtree" class="text-white me-2" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="https://twitter.com/theenglishtree" class="text-white me-2" target="_blank"><i class="fab fa-twitter"></i></a>
-                    <a href="https://www.youtube.com/theenglishtree" class="text-white" target="_blank"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- Main Navigation -->
     <nav class="navbar navbar-expand-lg navbar-custom fixed-top" id="mainNavbar">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#home">
                 <div class="me-2 p-2 rounded">
-                    <img src="english_tree_logo-removebg-preview.png" alt="The English Tree Logo" class="logo-img">
+                    <img src="/images/english_tree_logo-removebg-preview.png" alt="The English Tree Logo" class="logo-img">
                 </div>
               <div class="brand-text">
         <span class="fw-bold brand-title" style="font-family:   sans-serif; color: var(--primary-green); font-size: 1.2rem; letter-spacing: 0px; display: block; line-height: 1.2;">THE ENGLISH TREE</span>
@@ -1242,9 +1314,6 @@
                     </div>
                     
                   
-                            <!-- Google Reviews Card -->
-
-                    </div>
                 </div>
                 
                 <!-- Carousel Controls -->
@@ -1390,19 +1459,19 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-5" style="background: linear-gradient(135deg, var(--primary-dark-blue) 0%, rgba(31, 41, 55, 1) 100%); color: white;">
+    <footer class="py-5" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #1e293b 100%); color: white;">
         <div class="container">
             <div class="row g-5">
                 <!-- Brand Section -->
                 <div class="col-lg-4">
                     <div class="d-flex align-items-center mb-4">
-                        <div class="me-3 p-2 rounded" style="background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));">
+                        <div class="me-3 p-2 rounded" style="background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));">
                             <i class="fas fa-tree text-white fs-4"></i>
                         </div>
                         <h5 class="fw-bold mb-0" style="font-family: 'Poppins', sans-serif;">The English Tree</h5>
                     </div>
                     <p class="mb-4 opacity-75">
-                        Your trusted partner for English proficiency training in Hyderabad. Helping students achieve their international education and career dreams since 2008.
+                        Your trusted partner for English proficiency training in Hyderabad. Helping students achieve their international education and career dreams since 2003.
                     </p>
                     
                     <!-- Newsletter Signup -->
@@ -1410,7 +1479,7 @@
                         <h6 class="fw-bold mb-3">Stay Updated</h6>
                         <div class="input-group">
                             <input type="email" class="form-control" placeholder="Your email address">
-                            <button class="btn" style="background: var(--accent-gold); color: white;">
+                            <button class="btn" style="background: var(--secondary-gold); color: white;">
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </div>
@@ -1418,21 +1487,37 @@
                     
                     <!-- Social Media -->
                     <div>
-    <h6 class="fw-bold mb-3">Follow Us</h6>
-
-</div>
+                        <h6 class="fw-bold mb-3">Follow Us</h6>
+                        <div class="footer-social-icon">
+                            <a href="https://www.facebook.com/theenglishtree" target="_blank" aria-label="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.instagram.com/theenglishtree" target="_blank" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://twitter.com/theenglishtree" target="_blank" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://www.youtube.com/theenglishtree" target="_blank" aria-label="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/company/theenglishtree" target="_blank" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Quick Links -->
                 <div class="col-lg-2 col-md-6">
                     <h6 class="fw-bold mb-4">Quick Links</h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#home" class="text-decoration-none opacity-75 hover-opacity-100">Home</a></li>
-                        <li class="mb-2"><a href="#about" class="text-decoration-none opacity-75 hover-opacity-100">About Us</a></li>
-                        <li class="mb-2"><a href="#courses" class="text-decoration-none opacity-75 hover-opacity-100">Courses</a></li>
-                        <li class="mb-2"><a href="#gallery" class="text-decoration-none opacity-75 hover-opacity-100">Gallery</a></li>
-                        <li class="mb-2"><a href="#testimonials" class="text-decoration-none opacity-75 hover-opacity-100">Reviews</a></li>
-                        <li class="mb-2"><a href="#contact" class="text-decoration-none opacity-75 hover-opacity-100">Contact</a></li>
+                        <li class="mb-2"><a href="index.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">Home</a></li>
+                        <li class="mb-2"><a href="about.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">About Us</a></li>
+                        <li class="mb-2"><a href="courses.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">Courses</a></li>
+                        <li class="mb-2"><a href="gallery.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">Gallery</a></li>
+                        <li class="mb-2"><a href="testimonials.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">Reviews</a></li>
+                        <li class="mb-2"><a href="contact.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">Contact</a></li>
                     </ul>
                 </div>
                 
@@ -1441,33 +1526,33 @@
                     <h6 class="fw-bold mb-4">Our Courses</h6>
                     <ul class="list-unstyled">
                         <li class="mb-2">
-                            <a href="#" class="text-decoration-none opacity-75 hover-opacity-100">
+                            <a href="ielts.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">
                                 <i class="fas fa-graduation-cap me-2"></i>IELTS Training
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a href="#" class="text-decoration-none opacity-75 hover-opacity-100">
+                            <a href="pte.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">
                                 <i class="fas fa-laptop me-2"></i>PTE Coaching
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a href="#" class="text-decoration-none opacity-75 hover-opacity-100">
+                            <a href="gre.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">
                                 <i class="fas fa-calculator me-2"></i>GRE Preparation
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a href="#" class="text-decoration-none opacity-75 hover-opacity-100">
+                            <a href="duolingo.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">
                                 <i class="fas fa-globe me-2"></i>Duolingo Test
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a href="#" class="text-decoration-none opacity-75 hover-opacity-100">
+                            <a href="spoken-english.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">
                                 <i class="fas fa-comments me-2"></i>Spoken English
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a href="#" class="text-decoration-none opacity-75 hover-opacity-100">
-                                <i class="fas fa-gift me-2"></i>Combo Packages
+                            <a href="corporate-training.html" class="text-decoration-none opacity-75 hover-opacity-100" style="color: white;">
+                                <i class="fas fa-briefcase me-2"></i>Corporate Training
                             </a>
                         </li>
                     </ul>
@@ -1478,7 +1563,7 @@
                     <h6 class="fw-bold mb-4">Contact Info</h6>
                     <div class="mb-3">
                         <div class="d-flex align-items-start mb-2">
-                            <i class="fas fa-map-marker-alt me-3 mt-1" style="color: var(--accent-gold);"></i>
+                            <i class="fas fa-map-marker-alt me-3 mt-1" style="color: var(--secondary-gold);"></i>
                             <div>
                                 <strong>Address:</strong><br>
                                 <span class="opacity-75">2nd Floor, Above HDFC Bank<br>Mehdipatnam Main Road<br>Hyderabad - 500028</span>
@@ -1488,27 +1573,27 @@
                     
                     <div class="mb-3">
                         <div class="d-flex align-items-center mb-2">
-                            <i class="fas fa-phone me-3" style="color: var(--accent-gold);"></i>
+                            <i class="fas fa-phone me-3" style="color: var(--secondary-gold);"></i>
                             <div>
                                 <strong>Phone:</strong><br>
-                                <a href="tel:+919705454000" class="text-decoration-none opacity-75">+91-9705454000</a>
+                                <a href="tel:+919705454000" class="text-decoration-none opacity-75" style="color: white;">+91-9705454000</a>
                             </div>
                         </div>
                     </div>
                     
                     <div class="mb-3">
                         <div class="d-flex align-items-center mb-2">
-                            <i class="fas fa-envelope me-3" style="color: var(--accent-gold);"></i>
+                            <i class="fas fa-envelope me-3" style="color: var(--secondary-gold);"></i>
                             <div>
                                 <strong>Email:</strong><br>
-                                <a href="mailto:info@theenglishtree.com" class="text-decoration-none opacity-75">info@theenglishtree.com</a>
+                                <a href="mailto:info@theenglishtree.com" class="text-decoration-none opacity-75" style="color: white;">info@theenglishtree.com</a>
                             </div>
                         </div>
                     </div>
                     
                     <div class="mb-3">
                         <div class="d-flex align-items-start">
-                            <i class="fas fa-clock me-3 mt-1" style="color: var(--accent-gold);"></i>
+                            <i class="fas fa-clock me-3 mt-1" style="color: var(--secondary-gold);"></i>
                             <div>
                                 <strong>Hours:</strong><br>
                                 <span class="opacity-75">Mon-Sat: 9 AM - 7 PM<br>Sunday: 10 AM - 5 PM</span>
@@ -1523,17 +1608,20 @@
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <p class="mb-0 opacity-75">
-                        &copy; 2024 The English Tree. All rights reserved. Designed with <i class="fas fa-heart" style="color: var(--accent-gold);"></i> for student success.
+                        &copy; 2025 The English Tree. All rights reserved. Designed with <i class="fas fa-heart" style="color: var(--secondary-gold);"></i> for student success.
                     </p>
                 </div>
                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    <a href="#" class="text-decoration-none opacity-75 me-3">Privacy Policy</a>
-                    <a href="#" class="text-decoration-none opacity-75 me-3">Terms</a>
-                    <a href="#" class="text-decoration-none opacity-75">Sitemap</a>
+                    <a href="privacy.html" class="text-decoration-none opacity-75 me-3" style="color: white;">Privacy Policy</a>
+                    <a href="terms.html" class="text-decoration-none opacity-75 me-3" style="color: white;">Terms</a>
+                    <a href="sitemap.html" class="text-decoration-none opacity-75" style="color: white;">Sitemap</a>
                 </div>
             </div>
         </div>
     </footer>
+            
+     
+       
 
     <script>
         // Mobile menu toggle
@@ -1619,8 +1707,7 @@
             }
         });
     </script>
-    <!-- Floating Action Buttons -->
- 
+  
 
     <!-- Modals -->
     <!-- Course Details Modal -->
@@ -1718,79 +1805,9 @@
             </div>
         </div>
     </div>
+  
     
-    <!-- Video Testimonial Modal -->
-    <div class="modal fade" id="videoModal" tabindex="-1">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title fw-bold" style="color: var(--primary-dark-blue);">Student Success Stories</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="text-center py-5">
-                        <i class="fas fa-video fs-1 mb-4" style="color: var(--primary-blue);"></i>
-                        <h5 class="fw-bold mb-3">Video Testimonials</h5>
-                        <p class="mb-4">Watch our students share their success stories and experiences</p>
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle me-2"></i>
-                            Video testimonials are available on our YouTube channel
-                        </div>
-                        <a href="https://www.youtube.com/theenglishtree" target="_blank" class="btn btn-primary-custom">
-                            <i class="fab fa-youtube me-2"></i>Watch on YouTube
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Virtual Tour Modal -->
-    <div class="modal fade" id="tourModal" tabindex="-1">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title fw-bold" style="color: var(--primary-dark-blue);">Virtual Institute Tour</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="text-center py-5">
-                        <i class="fas fa-street-view fs-1 mb-4" style="color: var(--primary-blue);"></i>
-                        <h5 class="fw-bold mb-3">Explore Our Facilities</h5>
-                        <p class="mb-4">Take a virtual tour of our modern classrooms and facilities</p>
-                        <div class="row g-4">
-                            <div class="col-md-6">
-                                <div class="card h-100">
-                                    <div class="card-body text-center">
-                                        <i class="fas fa-chalkboard fs-3 mb-3" style="color: var(--primary-blue);"></i>
-                                        <h6 class="fw-bold">Smart Classrooms</h6>
-                                        <p class="small">AC classrooms equipped with smart boards and audio systems</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card h-100">
-                                    <div class="card-body text-center">
-                                        <i class="fas fa-laptop fs-3 mb-3" style="color: var(--primary-green);"></i>
-                                        <h6 class="fw-bold">Computer Lab</h6>
-                                        <p class="small">Dedicated lab for PTE practice with latest software</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <button class="btn btn-primary-custom me-2">
-                                <i class="fas fa-calendar-alt me-2"></i>Schedule Visit
-                            </button>
-                            <a href="tel:+919705454000" class="btn btn-gold-custom">
-                                <i class="fas fa-phone me-2"></i>Call for Tour
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
